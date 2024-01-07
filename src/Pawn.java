@@ -1,13 +1,8 @@
-public class Pawn  implements Piece{
-    boolean owner;
+public class Pawn extends ConcretePiece {
     String color;
 
-    public Pawn(boolean ow){
-        this.owner = ow;
-    }
-    @Override
-    public Player getOwner() {
-        return new ConcretePlayer(owner);
+    public Pawn(Player p) {
+        super(p);
     }
 
     @Override
