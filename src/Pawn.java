@@ -7,7 +7,7 @@ public class Pawn  implements Piece{
     }
     @Override
     public Player getOwner() {
-        retu;
+        return new ConcretePlayer(owner);
     }
 
     @Override
