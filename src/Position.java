@@ -9,6 +9,12 @@ public class Position {
     public int getX() {
         return this.x;
     }
+    public boolean equals(Position p){
+        return this.x == p.getX() && this.y == p.getY();
+    }
+    public boolean half_equal(Position p){
+        return this.x == p.getX() || this.y == p.getY();
+    }
 
     public int getY() {
         return this.y;

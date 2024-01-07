@@ -2,18 +2,18 @@ public class Move {
     //who moved
     private Position from;
     private Position to;
-    private Piece piece;
-    private Player player;
 
     //who go shit on
     private Piece dead; // if someone got killed I need to bring it back to the to position
+    private int x_dir,y_dir;
 
-    public Move(Position from, Position to, Piece piece, Player player, Piece died){
+
+    public Move(Position from, Position to, Piece died, int direction_x, int direction_y){
         this.from = from;
         this.to = to;
-        this.piece = piece;
-        this.player = player;
         this.dead = died;
+        this.x_dir = direction_x;
+        this.y_dir = direction_y;
     }
 
     public Position getFrom() {
@@ -24,11 +24,15 @@ public class Move {
         return to;
     }
 
-    public Piece getPiece() {
-        return piece;
+    public int getX_dir() {
+        return x_dir;
     }
 
-    public Player getPlayer() {
-        return player;
+    public int getY_dir() {
+        return y_dir;
+    }
+
+    public Piece getDead() {
+        return dead;
     }
 }
