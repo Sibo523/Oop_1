@@ -1,8 +1,11 @@
 public class King extends ConcretePiece{
-    Position pos;
-    public King(Player ow){
+    String name;
+    public King(Player ow,String name){
         super(ow);
-//        this.pos = pos;
+        this.name= name;
+    }
+    public String getName(){
+        return name;
     }
     @Override
     public String getType() {

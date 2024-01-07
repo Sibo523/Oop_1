@@ -1,7 +1,12 @@
 public class Pawn extends ConcretePiece {
-
-    public Pawn(Player p) {
+    private String name;
+    public Pawn(Player p,String name) {
         super(p);
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override

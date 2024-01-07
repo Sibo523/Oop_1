@@ -1,5 +1,3 @@
-import java.sql.SQLOutput;
-import java.util.ArrayList;
 import java.util.Stack;
 
 
@@ -32,7 +30,7 @@ public class GameLogic implements PlayableLogic {
         if (a.half_equal(b)) { // if it's a straight move
             //need to check for clear path
             int xDirection = Integer.compare(b.getX(), a.getX());
-            int yDirection = Integer.compare( b.getY(),a.getY());
+            int yDirection = Integer.compare(b.getY(), a.getY());
 
             if (a.getX() == b.getX()) {
                 int di = a.getY() - b.getY();
@@ -47,7 +45,7 @@ public class GameLogic implements PlayableLogic {
                             return false;
                     }
                 }
-            }else{
+            } else {
                 int di = a.getX() - b.getX();
                 if (di < 0) {
                     for (int i = a.getX() + 1; i < a.getX() + di; i++) {
@@ -95,38 +93,49 @@ public class GameLogic implements PlayableLogic {
     public void reset() {
         // Make all attacker pawns
         // rows first and last attack
+        String a = "A";
         for (int i = 3; i < 8; i++) {
-            Board[i][0] = new Pawn(atck);
-            Board[i][10] = new Pawn(atck);
+            Board[i][0] = new Pawn(atck, a + Integer.toString(i - 2));
+            Board[i][10] = new Pawn(atck, a + Integer.toString(i + 17));
         }
         //chopchick
-        Board[5][1] = new Pawn(atck);
-        Board[5][9] = new Pawn(atck);
-        //columns
+        Board[5][1] = new Pawn(atck, "A6");
+        Board[5][9] = new Pawn(atck, "A19");
+        //column
+        int index = 7;
         for (int i = 3; i < 8; i++) {
-            Board[0][i] = new Pawn(atck);
-            Board[10][i] = new Pawn(atck);
+            Board[0][i] = new Pawn(atck, a + Integer.toString(index));
+            index += 1;
+            if (index == 12) {
+                Board[1][5] = new Pawn(atck, a + Integer.toString(index));
+                index += 1;
+                Board[9][5] = new Pawn(atck, a + Integer.toString(index));
+                index += 1;
+            }
+            Board[10][i] = new Pawn(atck, a + Integer.toString(index));
+            index += 1;
         }
         //chopchick
-        Board[1][5] = new Pawn(atck);
-        Board[9][5] = new Pawn(atck);
 
         // Defenders
         //king
-        Board[5][5] = new King(def);
-        //chopchick
-        Board[3][5] = new Pawn(def);
-        Board[7][5] = new Pawn(def);
+        Board[5][5] = new King(def, "K7");
+//        //chopchick
+        Board[3][5] = new Pawn(def, "D5");
+        Board[7][5] = new Pawn(def, "D9");
         //columns next to king
+        index = 2;
         for (int i = 4; i < 7; i++) {
-            Board[4][i] = new Pawn(def);
-            Board[6][i] = new Pawn(def);
+            Board[4][i] = new Pawn(def, "D" + Integer.toString(index));
+            index += 2;
+            Board[6][i] = new Pawn(def, "D" + Integer.toString(index));
+            index += 2;
         }
-        //columns 5 pawns  (king column)
-        for (int i = 3; i < 8; i++) {
-            if (i == 5) continue;
-            Board[5][i] = new Pawn(def);
-        }
+        Board[5][3] = new Pawn(def, "D1");
+        Board[5][4] = new Pawn(def, "D3");
+        Board[5][6] = new Pawn(def, "D11");
+        Board[5][7] = new Pawn(def, "D13");
+        print_board();
     }
 
     @Override
@@ -143,6 +152,19 @@ public class GameLogic implements PlayableLogic {
     private void create_players() {
         this.atck = new ConcretePlayer(true);
         this.def = new ConcretePlayer(false);
+    }
+
+    private void print_board() {
+        for (int i = 0; i < Board.length; i++) {
+            for (int j = 0; j < Board.length; j++)
+                if (Board[i][j] == null) {
+                    System.out.print(" ");
+                } else {
+                    Piece x = (getPieceAtPosition(new Position(i, j)));
+                    System.out.print(Board[i][j].getType());
+                }
+            System.out.println();
+        }
     }
 
     private boolean move(Position from, Position to, Piece save, Piece died, int direction_x, int direction_y) {
