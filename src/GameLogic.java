@@ -144,8 +144,8 @@ public class GameLogic implements PlayableLogic {
         Board[a.getX()][a.getY()] = (ConcretePiece) b;
     }
     private void create_players() {
-        this.atck = new ConcretePlayer(true);
-        this.def = new ConcretePlayer(false);
+        this.atck = new ConcretePlayer(false);
+        this.def = new ConcretePlayer(true);
     }
 
     private void print_board() {
