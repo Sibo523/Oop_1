@@ -4,16 +4,15 @@ public class Move {
     private Position to;
 
     //who go shit on
-    private Piece dead; // if someone got killed I need to bring it back to the to position
-    private int x_dir,y_dir;
+    private Piece [] died; // if someone got killed I need to bring it back to the to position
+    private Position[] where_dead;
 
 
-    public Move(Position from, Position to, Piece died, int direction_x, int direction_y){
+    public Move(Position from, Position to, Piece[] died,Position[] where_dead){
         this.from = from;
         this.to = to;
-        this.dead = died;
-        this.x_dir = direction_x;
-        this.y_dir = direction_y;
+        this.died = died;
+        this.where_dead = where_dead;
     }
 
     public Position getFrom() {
@@ -23,16 +22,10 @@ public class Move {
     public Position getTo() {
         return to;
     }
-
-    public int getX_dir() {
-        return x_dir;
+    public Piece[] getDied() {
+        return died;
     }
-
-    public int getY_dir() {
-        return y_dir;
-    }
-
-    public Piece getDead() {
-        return dead;
+    public Position[] getWhere_dead() {
+        return where_dead;
     }
 }

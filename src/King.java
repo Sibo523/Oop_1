@@ -1,14 +1,20 @@
 public class King extends ConcretePiece{
-    String name;
-    public King(Player ow,String name){
-        super(ow);
-        this.name= name;
-    }
-    public String getName(){
-        return name;
+    private Position pos;
+    public King(Player ow,String name,Position p){
+        super(ow,name);
+        this.pos = p;
     }
     @Override
     public String getType() {
-        return "♔";
+        return "♚";
+    }
+    public Position getPos() {
+        return pos;
+    }
+    public String getSPos() {
+        return pos.toString();
+    }
+    public void setPos(Position pos) {
+        this.pos = pos;
     }
 }
