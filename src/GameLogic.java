@@ -16,8 +16,7 @@ public class GameLogic implements PlayableLogic {
 
     @Override
     public boolean move(Position a, Position b) {
-
-        Piece from = getPieceAtPosition(a);
+        ConcretePiece from = (ConcretePiece) getPieceAtPosition(a);
         Piece to = getPieceAtPosition(b);
         if (!inBoard(b)) return false; // if the destination is out of bounds
         if (from == null || to != null) return false; // no Piece to move or there is a Piece in the destination
@@ -220,17 +219,20 @@ public class GameLogic implements PlayableLogic {
         Board[5][7] = new Pawn(def, "D13");
     }
 
-    private boolean move(Position from, Position to, Piece save, Piece [] died,Position[] where_dead){
+    private boolean move(Position from, Position to, ConcretePiece save, Piece [] died,Position[] where_dead){
         moves.push(new Move(from, to, died, where_dead));
         if (save.getType() == "♚") {
             king.setPos(to);
+        }
+        if (died[0] != null) { // it means it killed someone
+            save.increment();
+            System.out.println("killed");
         }
         Board[from.getX()][from.getY()] = null;
         Board[to.getX()][to.getY()] = (ConcretePiece) save;
         atck_turn = !atck_turn;
         System.out.println("moved");
 
-        System.out.println(moves.size());
         return true;
     }
 
