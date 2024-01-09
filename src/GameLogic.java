@@ -260,6 +260,9 @@ public class GameLogic implements PlayableLogic {
             Position temp = new Position(to.getX() + x[i], to.getY() + y[i]); // all the alter positions
             if (inBoard(temp)) {
                 if (getPieceAtPosition(temp) != null && getPieceAtPosition(temp).getOwner() != from.getOwner()) {
+                    if (getPieceAtPosition(temp).getType() == "♚") { // you cannot eat the king
+                        continue;
+                    }
                     Position wall = new Position(temp.getX() + x[i], temp.getY() + y[i]); // the wall
                     if (inBoard(wall)) {
                         if (getPieceAtPosition(wall) != null && getPieceAtPosition(wall).getOwner() == from.getOwner()) {

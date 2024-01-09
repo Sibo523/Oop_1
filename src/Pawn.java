@@ -7,4 +7,5 @@ public class Pawn extends ConcretePiece {
     public String getType() {
         return "♙";
     }
+
 }
