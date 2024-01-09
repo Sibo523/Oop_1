@@ -58,8 +58,8 @@ public class GameLogic implements PlayableLogic {
                     }
                 }
             }
-            Position [] killed_Pos = new Position[0];
-            Piece [] Killed_Piece = new Piece[0];
+            Position [] killed_Pos = new Position[1];
+            Piece [] Killed_Piece = new Piece[1];
             if (from.getType() != "♚") {
                 killed_Pos = find_kill(b, from);
                 Killed_Piece = Pos_to_Piece(killed_Pos);
@@ -78,12 +78,12 @@ public class GameLogic implements PlayableLogic {
 
     @Override
     public Player getFirstPlayer() {
-        return atck;
+        return def;
     }
 
     @Override
     public Player getSecondPlayer() {
-        return def;
+        return atck;
     }
 
     @Override
@@ -103,7 +103,7 @@ public class GameLogic implements PlayableLogic {
 
     @Override
     public boolean isSecondPlayerTurn() {
-        return !atck_turn;
+        return atck_turn;
     }
 
     @Override
@@ -123,11 +123,17 @@ public class GameLogic implements PlayableLogic {
         Move last = moves.pop();
         Position [] pos = last.getWhere_dead();
         Piece [] pieces = last.getDied();
-        set_onBoard(last.getFrom(),getPieceAtPosition(last.getTo()));
-        set_onBoard(last.getTo(),null);
+        set_onBoard(last.getFrom(),last.getTo());
+        set_onBoard(last.getToPos(),null);
+        if (last.getTo().getType() == "♚") {
+            king.setPos(last.getFrom());
+        }
         for (int i = 0; i < pos.length; i++) {
             if (pos[i] == null) {
                 break;
+            }
+            if (pieces[i].getType() == "♚") {
+                king.setPos(pos[i]);
             }
             set_onBoard(pos[i],pieces[i]);
         }
@@ -164,7 +170,7 @@ public class GameLogic implements PlayableLogic {
     private void settings_reset() {
 //        create_players(); // create two players atck and def
         moves = new Stack<>(); // move history for undo
-        atck_turn = true; // switch turns every move
+        atck_turn = false; // switch turns every move
         this.king = new King(def, "K7", new Position(5, 5));
     }
 
@@ -220,7 +226,7 @@ public class GameLogic implements PlayableLogic {
     }
 
     private boolean move(Position from, Position to, ConcretePiece save, Piece [] died,Position[] where_dead){
-        moves.push(new Move(from, to, died, where_dead));
+        moves.push(new Move(from, to, save ,died, where_dead));
         if (save.getType() == "♚") {
             king.setPos(to);
         }
